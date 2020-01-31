@@ -1,0 +1,7 @@
+{
+  "name": "doctrinal-mastery-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
