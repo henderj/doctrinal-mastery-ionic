@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MemorizePageRoutingModule } from './memorize-routing.module';
 
 import { MemorizePage } from './memorize.page';
+import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { MemorizePage } from './memorize.page';
     IonicModule,
     MemorizePageRoutingModule
   ],
-  declarations: [MemorizePage]
+  declarations: [MemorizePage, MultipleChoiceComponent]
 })
-export class MemorizePageModule {}
+export class MemorizePageModule { }
