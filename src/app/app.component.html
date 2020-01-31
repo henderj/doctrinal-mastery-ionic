@@ -8,14 +8,27 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-            <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon slot="start" [name]="p.icon"></ion-icon>
-              <ion-label>
-                {{p.title}}
-              </ion-label>
+          <ion-radio-group>        
+            <ion-item>
+              <ion-label>Old Testament</ion-label>
+              <ion-radio slot="end" value="OT" checked></ion-radio>
             </ion-item>
-          </ion-menu-toggle>
+        
+            <ion-item>
+              <ion-label>New Testament</ion-label>
+              <ion-radio slot="end" value="NT"></ion-radio>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label>Book of Mormon</ion-label>
+              <ion-radio slot="end" value="BM"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Doctrine and Covenants</ion-label>
+              <ion-radio slot="end" value="DC"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
         </ion-list>
       </ion-content>
     </ion-menu>
