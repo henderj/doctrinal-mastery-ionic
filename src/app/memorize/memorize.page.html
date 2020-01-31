@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>memorize</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" routerDirection="back">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Old Testament</ion-title>
+    <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
