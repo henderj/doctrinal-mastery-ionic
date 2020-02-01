@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'finished',
     loadChildren: () => import('./finished/finished.module').then( m => m.FinishedPageModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
   }
 ];
 
