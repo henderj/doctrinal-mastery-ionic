@@ -8,6 +8,7 @@ import { MemorizePageRoutingModule } from './memorize-routing.module';
 
 import { MemorizePage } from './memorize.page';
 import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
+import { CardComponent } from './card/card.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.compo
     IonicModule,
     MemorizePageRoutingModule
   ],
-  declarations: [MemorizePage, MultipleChoiceComponent]
+  declarations: [MemorizePage, MultipleChoiceComponent, CardComponent]
 })
 export class MemorizePageModule { }

@@ -1,3 +1,15 @@
-<p>
-  card works!
-</p>
+<div style="display: flex; flex-direction: column; height: 100%; max-width: 800px; margin: 0 auto; max-height: 800px;">
+  <ion-card class="ion-margin" style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+    <ion-card-title class="ion-margin-vertical ion-text-center">Question here.</ion-card-title>
+    <ion-card-title class="ion-margin-vertical ion-text-center">Answer here.</ion-card-title>
+    <ion-card-subtitle color="normal" class="ion-margin-vertical ion-text-center"
+      style="position: absolute; bottom: 20px; margin: 0 auto">
+      (Tap to check your answer)
+    </ion-card-subtitle>
+  </ion-card>
+  <div style="display: flex; justify-content: stretch;">
+    <ion-button color="primary" size="large" fill="outline" style="flex-grow: 1;" class="ion-margin">Review</ion-button>
+    <ion-button color="primary" size="large" fill="solid" style="flex-grow: 1;"   class="ion-margin">Got it!</ion-button>
+  </div>
+</div>
