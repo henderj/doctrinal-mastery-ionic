@@ -1,9 +1,32 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>quick-review</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" routerDirection="back">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Quick Review</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <h1 class="ion-text-center ion-margin-vertical ion-padding-horizontal">
+    Which doctrines do you want to review?
+  </h1>
+  <ion-list lines="none" class="ion-margin-vertical">
+    <ion-item style="height: 64px;" *ngFor="let number of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+      <ion-label>Doctrine Number {{number}}.</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col style="text-align: center">
+        <ion-button size="medium" fill="solid" expand="block" routerLink="/memorize">Review 2 Doctrines.</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
