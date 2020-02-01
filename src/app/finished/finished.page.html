@@ -1,9 +1,46 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>finished</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" routerDirection="back">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Old Testament</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
 
+<ion-content>
+  <ion-grid
+    style="height: 100%; display: flex; flex-flow: column; justify-content: space-between; align-items: stretch;">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <h1>Good Work!</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-label>Old Testament Progress:</ion-label>
+        <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <h3>You Memorized:</h3>
+        <p color="light">Scripture Reference 1</p>
+        <p color="light">Scripture Reference 2</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" fill="outline" [routerLink]="['/home']" routerDirection="back">Exit
+        </ion-button>
+        <ion-button size="large" expand="block" fill="solid" class="ion-margin-top" [routerLink]="['/memorize']"
+          routerDirection="forward">Keep Memorizing</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
