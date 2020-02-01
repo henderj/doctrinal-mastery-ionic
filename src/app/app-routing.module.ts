@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
+    path: 'quick-memorize',
+    loadChildren: () => import('./quick-memorize/quick-memorize.module').then( m => m.QuickMemorizePageModule)
   }
 ];
 
