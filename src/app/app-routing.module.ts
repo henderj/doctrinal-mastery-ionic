@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'memorize',
     loadChildren: () => import('./memorize/memorize.module').then( m => m.MemorizePageModule)
+  },
+  {
+    path: 'finished',
+    loadChildren: () => import('./finished/finished.module').then( m => m.FinishedPageModule)
   }
 ];
 
