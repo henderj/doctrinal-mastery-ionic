@@ -40,8 +40,10 @@
         <ion-item lines="inset">
           <ion-label>User Name</ion-label>
         </ion-item>
-        <ion-item  >Settings</ion-item>
-        <ion-item color="danger">Sign out</ion-item>
+        <ion-item [routerLink]="['/settings']">Settings</ion-item>
+        <ion-item>
+          <ion-text color="danger">Sign out</ion-text>
+        </ion-item>
         <!-- <ion-item>
           <ion-button fill="outline" color="danger" size="medium" expand="block">
             Sign out
