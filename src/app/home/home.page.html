@@ -10,28 +10,29 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid style="height: 100%; display: flex; flex-flow: column;">
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <h1>
-            Welcome Back, User
-          </h1>
-        </ion-col>
-      </ion-row>
+  <ion-grid style="height: 100%; display: flex; flex-flow: column;">
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <h1>
+          Welcome Back, User
+        </h1>
+      </ion-col>
+    </ion-row>
 
-      <ion-row class="ion-align-items-center" style="flex-grow: 1;">
-        <ion-col>
-          <ion-label >Old Testament Progress:</ion-label>
-          <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
-        </ion-col>
-      </ion-row>
+    <ion-row class="ion-align-items-center" style="flex-grow: 1;">
+      <ion-col>
+        <ion-label>Old Testament Progress:</ion-label>
+        <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
+      </ion-col>
+    </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-button size="large" expand="block" fill="outline" [routerLink]="['/quick-review']">Quick Review</ion-button>
-          <ion-button size="large" expand="block" fill="solid" class="ion-margin-top" [routerLink]="['/memorize']"
-            routerDirection="forward">Keep Memorizing</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button size="large" expand="block" fill="outline" [routerLink]="['/quick-review']">Quick Review
+        </ion-button>
+        <ion-button size="large" expand="block" fill="solid" class="ion-margin-top" [routerLink]="['/memorize']"
+          routerDirection="forward">Keep Memorizing</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
