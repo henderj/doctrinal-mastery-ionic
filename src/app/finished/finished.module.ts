@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FinishedPageRoutingModule } from './finished-routing.module';
 
 import { FinishedPage } from './finished.page';
+import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { FinishedPage } from './finished.page';
     IonicModule,
     FinishedPageRoutingModule
   ],
-  declarations: [FinishedPage]
+  declarations: [FinishedPage, CircleProgressComponent]
 })
 export class FinishedPageModule {}

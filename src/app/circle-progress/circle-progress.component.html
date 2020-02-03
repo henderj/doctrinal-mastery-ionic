@@ -1,3 +1,36 @@
-<p>
-  circle-progress works!
-</p>
+
+  <svg [attr.height]="radius * 2" [attr.width]="radius * 2">
+    <svg:defs>
+      <svg:linearGradient id="gradient" x1="100%" y1="0%" x2="0%" y2="0%">
+        <svg:stop offset="0%" stop-color="#67CCDC" />
+        <svg:stop offset="100%" stop-color="#3CA7E2" />
+      </svg:linearGradient>
+    </svg:defs>
+    <svg:circle
+      class="c-ring-progress__ring"
+      stroke="#E4FBFF"
+      [attr.stroke-width]="stroke"
+      fill="transparent"
+      [attr.r]="normalizedRadius"
+      [attr.cx]="radius"
+      [attr.cy]="radius"
+    />
+    <svg:circle
+      class="c-ring-progress__ring"
+      stroke="url(#gradient)"
+      [attr.stroke-dasharray]="circumference + ' ' + circumference"
+      [style.stroke-dashoffset]="strokeDashoffset"
+      [attr.stroke-width]="stroke"
+      fill="transparent"
+      [attr.r]="normalizedRadius"
+      [attr.cx]="radius"
+      [attr.cy]="radius"
+    />
+    <svg:text
+      class="c-ring-progress__text"
+      x="50%"
+      y="50%"
+      text-anchor="middle"
+      dy=".3em"
+    >{{formattedProgress}}</svg:text>
+  </svg>

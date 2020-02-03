@@ -1,0 +1,13 @@
+.c-ring-progress__ring {
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.c-ring-progress__text {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 36px;
+  fill: --ion-color-medium;
+}

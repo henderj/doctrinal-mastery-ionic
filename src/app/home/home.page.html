@@ -16,13 +16,15 @@
         <h1>
           Welcome Back, User
         </h1>
+        <h2><ion-text color="medium">
+          Old Testament
+        </ion-text></h2>
       </ion-col>
     </ion-row>
 
     <ion-row class="ion-align-items-center" style="flex-grow: 1;">
-      <ion-col>
-        <ion-label>Old Testament Progress:</ion-label>
-        <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
+      <ion-col style="display: flex;">
+        <app-circle-progress style="margin: auto;" progress="0.25" stroke="10" radius="100"></app-circle-progress>
       </ion-col>
     </ion-row>
 
