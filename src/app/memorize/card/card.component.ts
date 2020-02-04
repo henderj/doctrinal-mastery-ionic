@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -6,9 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
+  @Input() question = 'Question Placeholder';
+  @Input() answer = 'Answer Placeholder';
 
-  constructor() { }
+  @Output() clicked = new EventEmitter();
 
-  ngOnInit() {}
+  hideAnswer = true;
 
+  ngOnInit(): void {
+  }
+
+  onClick(): void {
+    this.hideAnswer = false;
+    this.clicked.emit();
+  }
 }
