@@ -1,17 +1,16 @@
-<ion-content style="height: 100%; display: flex; flex-flow: column;">
-  <div
-    style="height: 100%; display: flex; flex-flow: column nowrap; justify-content: center; align-items: stretch; max-width: 800px; padding: 0 20px; margin: auto;">
-    <div style="height: 30%; display: flex; flex-grow: 1;">
+<div class="o-fullsize-vertical">
+  <div class="multiple-choice-container">
+    <div class="multiple-choice-question">
       <h2 style="margin: auto 0;">Doctrine question goes here.</h2>
     </div>
-    <div style=" display: flex; flex-flow: column;  justify-content: flex-end;">
-      <ion-button color="secondary" size="large" fill="outline">Answer A</ion-button>
-      <ion-button color="secondary" size="large" fill="outline">Answer B</ion-button>
-      <ion-button color="secondary" size="large" fill="outline">Answer C</ion-button>
-      <ion-button color="secondary" size="large" fill="outline">Answer D</ion-button>
+    <div class="multiple-choice-answer-group" *ngFor="let choice of choices; index as i">
+      <ion-button [color]="stateColorMap[choice.state]" size="large" fill="outline" (click)="onChoiceClicked(i)"
+        [ngClass]="{'o-no-opacity o-hidden': choice.state == 'hidden'}" class="o-trans">
+        {{choice.text}}
+      </ion-button>
     </div>
     <div class="ion-margin-vertical">
       <ion-button color="primary" size="large" fill="solid" expand="block">Continue</ion-button>
     </div>
   </div>
-</ion-content>
+</div>
