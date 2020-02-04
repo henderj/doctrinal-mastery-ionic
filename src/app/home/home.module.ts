@@ -6,12 +6,14 @@ import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
+import { CommonComponentsModule } from '../common-components/common-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    CommonComponentsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -19,6 +21,6 @@ import { CircleProgressComponent } from '../circle-progress/circle-progress.comp
       }
     ])
   ],
-  declarations: [HomePage, CircleProgressComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

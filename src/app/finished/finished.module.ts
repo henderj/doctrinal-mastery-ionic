@@ -8,14 +8,16 @@ import { FinishedPageRoutingModule } from './finished-routing.module';
 
 import { FinishedPage } from './finished.page';
 import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
+import { CommonComponentsModule } from '../common-components/common-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FinishedPageRoutingModule
+    FinishedPageRoutingModule,
+    CommonComponentsModule
   ],
-  declarations: [FinishedPage, CircleProgressComponent]
+  declarations: [FinishedPage]
 })
 export class FinishedPageModule {}
