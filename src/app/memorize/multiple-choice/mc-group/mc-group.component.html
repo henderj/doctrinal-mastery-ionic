@@ -1,3 +1,6 @@
-<p>
-  mc-group works!
-</p>
+<div class="multiple-choice-answer-group" *ngFor="let choice of choices; index as i">
+  <ion-button [color]="stateColorMap[choice.state]" size="large" fill="outline" (click)="onChoiceClicked(i)"
+    [ngClass]="{'o-no-opacity o-hidden': choice.state == 'hidden'}" class="o-trans">
+    {{choice.text}}
+  </ion-button>
+</div>

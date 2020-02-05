@@ -3,12 +3,7 @@
     <div class="multiple-choice-question">
       <h2 style="margin: auto 0;">Doctrine question goes here.</h2>
     </div>
-    <div class="multiple-choice-answer-group" *ngFor="let choice of choices; index as i">
-      <ion-button [color]="stateColorMap[choice.state]" size="large" fill="outline" (click)="onChoiceClicked(i)"
-        [ngClass]="{'o-no-opacity o-hidden': choice.state == 'hidden'}" class="o-trans">
-        {{choice.text}}
-      </ion-button>
-    </div>
+    <app-mc-group></app-mc-group>
     <div class="ion-margin-vertical">
       <ion-button color="primary" size="large" fill="solid" expand="block">Continue</ion-button>
     </div>

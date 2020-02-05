@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MCConfig, Choice } from './mcconfig';
+import { MCGroupComponent } from './mc-group/mc-group.component';
 
 @Component({
   selector: 'app-multiple-choice',
