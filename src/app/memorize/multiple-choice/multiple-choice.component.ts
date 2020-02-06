@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MCConfig, Choice } from './mcconfig';
-import { MCGroupComponent } from './mc-group/mc-group.component';
+import { Book } from 'src/app/book';
+import { Item } from 'src/app/item';
+import { ChallengePayload } from '../ChallengePayload';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-multiple-choice',
@@ -8,62 +11,62 @@ import { MCGroupComponent } from './mc-group/mc-group.component';
   styleUrls: ['./multiple-choice.component.scss'],
 })
 export class MultipleChoiceComponent implements OnInit {
-  readonly stateColorMap: { [state: string]: string } = {
-    normal: 'secondary',
-    correct: 'success',
-    incorrect: 'danger'
-  };
+  @Input() book: Book;
+  @Input() item: Item;
 
-  @Input() config: MCConfig = {
-    choices: [
-      { text: 'Choice A', state: 'normal', id: 0 },
-      { text: 'Choice B', state: 'normal', id: 1 },
-      { text: 'Choice C', state: 'normal', id: 2 },
-      { text: 'Choice D', state: 'normal', id: 3 }
-    ],
-    correctIndex: 0
-  };
+  @Output() finished = new EventEmitter<ChallengePayload>();
 
-  choices: Choice[] = [...this.config.choices];
-  anyChoiceClicked = false;
+  questionAnswered = false;
+  questionCorrect = false;
+  isMobile = false;
 
-  constructor() { }
+  get config(): MCConfig {
+    const choices: Choice[] = [];
+    const otherItems: Item[] = this.book.getRandomChoices(this.item);
+    const numChoices: number = otherItems.length + 1;
 
-  ngOnInit() { }
+    const correctIndex: number = Math.floor(Math.random() * numChoices);
 
-  onChoiceClicked(index: number) {
-    if (this.anyChoiceClicked) { return; }
-    // let correct: boolean = index === this.config.correctIndex;
-    let incorrectChoice: Choice | null = null;
-    const toRemove: number[] = [];
-
-    for (let i = 0; i < this.choices.length; i++) {
-      const choice = this.choices[i];
-      if (i === this.config.correctIndex) {
-        choice.state = 'correct';
+    for (let i = 0; i < numChoices; i++) {
+      if (i === correctIndex) {
+        choices.push({
+          text: this.item.answer,
+          state: 'normal',
+          id: i
+        });
       } else {
-        if (i === index) {
-          choice.state = 'incorrect';
-          incorrectChoice = this.choices[i];
-        } else {
-          // toRemove.push(i);
-          choice.state = 'hidden';
-        }
+        const otherItem: Item = otherItems.splice(0, 1)[0];
+        choices.push({
+          text: otherItem.answer,
+          state: 'normal',
+          id: i
+        });
       }
     }
 
-    for (let i = toRemove.length - 1; i >= 0; i--) {
-      this.choices.splice(toRemove[i], 1);
-    }
-    if (
-      incorrectChoice != null &&
-      this.choices.indexOf(incorrectChoice) === 0
-    ) {
-      this.choices.reverse();
-    }
-
-    this.anyChoiceClicked = true;
-    // this.$emit("onEvaluatedAnswer", correct);
+    const config: MCConfig = { choices, correctIndex };
+    return config;
   }
+
+  get platformTap(): string {
+    return this.isMobile ? 'Tap' : 'Click';
+  }
+
+  onEvaluatedAnswer(correct: boolean) {
+    this.questionCorrect = correct;
+    this.questionAnswered = true;
+  }
+
+  onOverlayClicked() {
+    const score: number = this.questionCorrect ? 1 : -1;
+    this.finished.emit({ mastered: this.questionCorrect, scoreDelta: score });
+  }
+
+  constructor(public platform: Platform) {
+    this.isMobile = platform.is('mobile');
+  }
+
+  ngOnInit() { }
+
 
 }
