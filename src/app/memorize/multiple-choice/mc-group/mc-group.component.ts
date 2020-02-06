@@ -23,7 +23,7 @@ export class MCGroupComponent implements OnInit {
     correctIndex: 0
   };
 
-  @Output() evaluatedAnswer = new EventEmitter<boolean>();
+  @Output() finished = new EventEmitter<boolean>();
 
   choices: Choice[] = [...this.config.choices];
   anyChoiceClicked = false;
@@ -64,6 +64,6 @@ export class MCGroupComponent implements OnInit {
     }
 
     this.anyChoiceClicked = true;
-    this.evaluatedAnswer.emit(correct);
+    this.finished.emit(correct);
   }
 }

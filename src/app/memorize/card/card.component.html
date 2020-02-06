@@ -1,18 +1,18 @@
 <div class="card-challenge-container">
-  <ion-card (click)="onClick()" class="card-challenge-card ion-margin">
+  <ion-card (click)="onCardClick()" class="card-challenge-card ion-margin">
     <ion-card-title class="ion-margin-vertical ion-text-center">{{question}}</ion-card-title>
-    <ion-card-title [class.o-no-opacity]="hideAnswer" class="o-trans ion-margin-vertical ion-text-center">
+    <ion-card-title [class.o-no-opacity]="!cardClicked" class="o-trans ion-margin-vertical ion-text-center">
       {{answer}}
     </ion-card-title>
 
-    <ion-card-subtitle [class.o-no-opacity]="!hideAnswer" color="normal"
+    <ion-card-subtitle [class.o-no-opacity]="cardClicked" color="normal"
       class="card-tooltip o-trans ion-margin-vertical ion-text-center">
       (Tap to check your answer)
     </ion-card-subtitle>
   </ion-card>
 
-  <div [class.o-no-opacity]="hideAnswer" class="o-trans card-challenge-button-container">
-    <ion-button color="primary" size="large" fill="outline" class="o-flex-grow ion-margin">Review</ion-button>
-    <ion-button color="primary" size="large" fill="solid" class="o-flex-grow ion-margin">Got it!</ion-button>
+  <div [class.o-no-opacity]="!cardClicked" class="o-trans card-challenge-button-container">
+    <ion-button (click)="onButtonClick(false)" color="primary" size="large" fill="outline" class="o-flex-grow ion-margin">Review</ion-button>
+    <ion-button (click)="onButtonClick(true)" color="primary" size="large" fill="solid" class="o-flex-grow ion-margin">Got it!</ion-button>
   </div>
 </div>
