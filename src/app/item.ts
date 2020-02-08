@@ -29,6 +29,10 @@ export class Item {
         };
     }
 
+    get bookNumber(): number {
+        return Math.floor(this.ID / 100);
+    }
+
     get score(): number {
         return this._itemStateData.score;
     }
