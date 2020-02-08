@@ -11,5 +11,8 @@
 </ion-header>
 
 <ion-content>
-  <app-multiple-choice (finished)="onFinished($event)"></app-multiple-choice>
+  <app-card *ngIf="useCardChallenge" [book]="currentProperties.book" [item]="currentProperties.item"
+    (finished)="onFinished($event)"></app-card>
+  <app-multiple-choice *ngIf="!useCardChallenge" [book]="currentProperties.book" [item]="currentProperties.item"
+    (finished)="onFinished($event)"></app-multiple-choice>
 </ion-content>

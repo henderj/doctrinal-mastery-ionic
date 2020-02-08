@@ -59,7 +59,7 @@ export class MultipleChoiceComponent implements OnInit {
 
   onOverlayClicked() {
     const score: number = this.questionCorrect ? 1 : -1;
-    this.finished.emit({ mastered: this.questionCorrect, scoreDelta: score });
+    this.finished.emit({ correct: this.questionCorrect, scoreDelta: score });
   }
 
   constructor(public platform: Platform) {

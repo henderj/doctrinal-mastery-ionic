@@ -38,6 +38,6 @@ export class CardComponent implements OnInit {
 
   onButtonClick(isMastered: boolean): void {
     const score: number = isMastered ? 3 : -2;
-    this.finished.emit({mastered: isMastered, scoreDelta: score});
+    this.finished.emit({correct: isMastered, scoreDelta: score});
   }
 }

@@ -1,4 +1,4 @@
 export interface ChallengePayload {
-  mastered: boolean;
+  correct: boolean;
   scoreDelta: number;
 }
