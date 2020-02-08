@@ -10,6 +10,7 @@ import { MemorizePage } from './memorize.page';
 import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
 import { CardComponent } from './card/card.component';
 import { MCGroupComponent } from './multiple-choice/mc-group/mc-group.component';
+import { ItemService } from './item.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { MCGroupComponent } from './multiple-choice/mc-group/mc-group.component'
     IonicModule,
     MemorizePageRoutingModule
   ],
-  declarations: [MemorizePage, MultipleChoiceComponent, CardComponent, MCGroupComponent]
+  declarations: [MemorizePage, MultipleChoiceComponent, CardComponent, MCGroupComponent, ItemService]
 })
 export class MemorizePageModule { }
