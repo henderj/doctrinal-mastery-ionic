@@ -7,10 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { MemorizePageRoutingModule } from './memorize-routing.module';
 
 import { MemorizePage } from './memorize.page';
-import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
-import { CardComponent } from './card/card.component';
-import { MCGroupComponent } from './multiple-choice/mc-group/mc-group.component';
-import { MemorizeService } from '../services/memorize.service';
+import { MultipleChoiceComponent } from '../../components/multiple-choice/multiple-choice.component';
+import { CardComponent } from '../../components/card/card.component';
+import { MCGroupComponent } from '../../components/mc-group/mc-group.component';
+import { MemorizeService } from '../../services/memorize.service';
 
 @NgModule({
   imports: [

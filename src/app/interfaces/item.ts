@@ -15,14 +15,15 @@ export class Item {
     public static readonly MaxScore: number = 3;
     public static readonly MinScore: number = 0;
 
-    private _itemStateData: ItemStateData;
+    private itemStateData: ItemStateData;
 
-    constructor(readonly ID: number,
+    constructor(
+        readonly ID: number,
         readonly type: ItemType,
         readonly question: string,
         readonly answer: string,
         options: ItemStateOptions = {}) {
-        this._itemStateData = {
+        this.itemStateData = {
             score: options.score || 0,
             state: options.state || ItemState.Not_Seen,
             numOfWrongAnswers: options.numOfWrongAnswers || 0
@@ -34,15 +35,15 @@ export class Item {
     }
 
     get score(): number {
-        return this._itemStateData.score;
+        return this.itemStateData.score;
     }
 
     get state(): ItemState {
-        return this._itemStateData.state;
+        return this.itemStateData.state;
     }
 
     get numOfWrongAnswers(): number {
-        return this._itemStateData.numOfWrongAnswers;
+        return this.itemStateData.numOfWrongAnswers;
     }
 
     get mastered(): boolean {
@@ -50,33 +51,33 @@ export class Item {
     }
 
     setItemStateData(data: ItemStateOptions) {
-        this._itemStateData = {
-            score: data.score || this._itemStateData.score,
-            state: data.state || this._itemStateData.state,
-            numOfWrongAnswers: data.numOfWrongAnswers || this._itemStateData.numOfWrongAnswers
+        this.itemStateData = {
+            score: data.score || this.itemStateData.score,
+            state: data.state || this.itemStateData.state,
+            numOfWrongAnswers: data.numOfWrongAnswers || this.itemStateData.numOfWrongAnswers
         };
     }
 
-    getItemStateData(): ItemStateData{
-        return {score: this.score, state: this.state, numOfWrongAnswers: this.numOfWrongAnswers};
+    getItemStateData(): ItemStateData {
+        return { score: this.score, state: this.state, numOfWrongAnswers: this.numOfWrongAnswers };
     }
 
     incrementScore(amount: number = 1): void {
-        this._itemStateData.score += amount;
-        if (this._itemStateData.score > Item.MaxScore) this._itemStateData.score = Item.MaxScore;
+        this.itemStateData.score += amount;
+        if (this.itemStateData.score > Item.MaxScore) { this.itemStateData.score = Item.MaxScore; }
         this.updateStateBasedOnScore();
     }
 
     decrementScore(amount: number = 1): void {
-        this._itemStateData.score -= amount;
-        if (this._itemStateData.score < Item.MinScore) this._itemStateData.score = Item.MinScore;
-        this._itemStateData.numOfWrongAnswers++;
+        this.itemStateData.score -= amount;
+        if (this.itemStateData.score < Item.MinScore) { this.itemStateData.score = Item.MinScore; }
+        this.itemStateData.numOfWrongAnswers++;
         this.updateStateBasedOnScore();
     }
 
     private updateStateBasedOnScore(): void {
-        this._itemStateData.state = ItemState.Learning;
-        if (this.mastered) this._itemStateData.state = ItemState.Mastered;
+        this.itemStateData.state = ItemState.Learning;
+        if (this.mastered) { this.itemStateData.state = ItemState.Mastered; }
     }
 }
 

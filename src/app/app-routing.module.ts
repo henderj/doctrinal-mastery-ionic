@@ -9,22 +9,23 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
   },
   {
     path: 'memorize',
-    loadChildren: () => import('./memorize/memorize.module').then( m => m.MemorizePageModule)
+    loadChildren: () => import('./pages/memorize/memorize.module').then( m => m.MemorizePageModule)
   },
   {
     path: 'finished',
-    loadChildren: () => import('./finished/finished.module').then( m => m.FinishedPageModule)
+    loadChildren: () => import('./pages/finished/finished.module').then( m => m.FinishedPageModule)
   },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
-  },  {
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  {
     path: 'quick-review',
-    loadChildren: () => import('./quick-review/quick-review.module').then( m => m.QuickReviewPageModule)
+    loadChildren: () => import('./pages/quick-review/quick-review.module').then( m => m.QuickReviewPageModule)
   }
 
 ];

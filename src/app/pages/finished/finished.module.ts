@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { FinishedPageRoutingModule } from './finished-routing.module';
 
 import { FinishedPage } from './finished.page';
-import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
-import { CommonComponentsModule } from '../common-components/common-components.module';
+import { CircleProgressComponent } from '../../components/circle-progress/circle-progress.component';
+import { CommonComponentsModule } from '../../modules/common-components/common-components.module';
 
 @NgModule({
   imports: [

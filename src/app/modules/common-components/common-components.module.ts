@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
+import { CircleProgressComponent } from '../../components/circle-progress/circle-progress.component';
 
 
 

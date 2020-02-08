@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Book } from 'src/app/book';
-import { Item } from 'src/app/item';
-import { ChallengePayload } from '../ChallengePayload';
+import { Book } from 'src/app/interfaces/book';
+import { Item } from 'src/app/interfaces/item';
+import { ChallengePayload } from '../../interfaces/ChallengePayload';
 
 @Component({
   selector: 'app-card',

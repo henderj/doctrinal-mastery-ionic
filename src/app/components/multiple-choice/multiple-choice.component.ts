@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MCConfig, Choice } from './mcconfig';
-import { Book } from 'src/app/book';
-import { Item } from 'src/app/item';
-import { ChallengePayload } from '../ChallengePayload';
+import { MCConfig, Choice } from '../../interfaces/mcconfig';
+import { Book } from 'src/app/interfaces/book';
+import { Item } from 'src/app/interfaces/item';
+import { ChallengePayload } from '../../interfaces/ChallengePayload';
 import { Platform } from '@ionic/angular';
 
 @Component({

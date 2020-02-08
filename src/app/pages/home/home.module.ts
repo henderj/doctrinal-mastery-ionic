@@ -5,8 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import { CircleProgressComponent } from '../circle-progress/circle-progress.component';
-import { CommonComponentsModule } from '../common-components/common-components.module';
+import { CircleProgressComponent } from '../../components/circle-progress/circle-progress.component';
+import { CommonComponentsModule } from '../../modules/common-components/common-components.module';
 
 @NgModule({
   imports: [

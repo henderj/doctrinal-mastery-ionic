@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ChallengePayload } from './ChallengePayload';
-import { Book } from '../book';
-import { Item, ItemType } from '../item';
+import { ChallengePayload } from '../../interfaces/ChallengePayload';
+import { Book } from '../../interfaces/book';
+import { Item, ItemType } from '../../interfaces/item';
 
 @Component({
   selector: 'app-memorize',
