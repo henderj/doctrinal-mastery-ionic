@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Item, ItemType } from '../interfaces/item';
 import { removeItemFromArray } from '../utils';
 import { Book } from '../interfaces/book';
 import { ChallengePayload } from '../interfaces/ChallengePayload';
 import { MemorizeChallenges } from '../enums/memorize-challenges.enum';
+import { NextItemPayload } from '../interfaces/NextItemPayload';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,8 @@ export class MemorizeService {
 
   masteredItems: Item[] = [];
 
-  nextItemCallback: (item: Item, view: MemorizeChallenges) => void;
+  private onNextItemSource = new Subject<NextItemPayload>();
+  onNextItem$ = this.onNextItemSource.asObservable();
 
 
   private static calcMaxScore(book: Book): number {
@@ -68,10 +70,9 @@ export class MemorizeService {
     return book.pointsLeft;
   }
 
-  public startMemorizeSession(book: Book, onNextItemReady?: (item: Item, view: MemorizeChallenges) => void): void {
+  public startMemorizeSession(book: Book): void {
     this.currentBook = book;
     this.maxScore = MemorizeService.calcMaxScore(book);
-    this.nextItemCallback = onNextItemReady;
 
     this.continueSession();
   }
@@ -132,7 +133,8 @@ export class MemorizeService {
     this.currentItemIndex = this.getNextItemIndex();
     const nextView = this.nextView(this.currentItem);
 
-    this.nextItemCallback(this.currentItem, nextView);
+    // this.nextItemCallback(this.currentItem, nextView);
+    this.onNextItemSource.next({ item: this.currentItem, view: nextView });
   }
 
   private finishSession(): void {

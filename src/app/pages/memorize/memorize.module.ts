@@ -19,6 +19,6 @@ import { MemorizeService } from '../../services/memorize.service';
     IonicModule,
     MemorizePageRoutingModule
   ],
-  declarations: [MemorizePage, MultipleChoiceComponent, CardComponent, MCGroupComponent, MemorizeService]
+  declarations: [MemorizePage, MultipleChoiceComponent, CardComponent, MCGroupComponent]
 })
 export class MemorizePageModule { }

@@ -4,6 +4,7 @@ import { Book } from '../../interfaces/book';
 import { Item, ItemType } from '../../interfaces/item';
 import { MemorizeService } from 'src/app/services/memorize.service';
 import { MemorizeChallenges } from 'src/app/enums/memorize-challenges.enum';
+import { NextItemPayload } from 'src/app/interfaces/NextItemPayload';
 
 @Component({
   selector: 'app-memorize',
@@ -41,6 +42,7 @@ export class MemorizePage implements OnInit {
 
 
   private updateView(view: MemorizeChallenges): void {
+    console.log('updating view...');
     if (view === MemorizeChallenges.Card) {
       this.useCardChallenge = true;
       return;
@@ -53,17 +55,18 @@ export class MemorizePage implements OnInit {
   constructor(public memorizeService: MemorizeService) { }
 
   ngOnInit() {
-    this.memorizeService.startMemorizeSession(this.book, this.onNextItemReady);
+    this.memorizeService.onNextItem$.subscribe(payload => {
+      this.onNextItemReady(payload);
+    });
+    this.memorizeService.startMemorizeSession(this.book);
   }
 
-  onNextItemReady(item: Item, view: MemorizeChallenges) {
-    this.updateView(view);
-    this.currentItem = item;
+  onNextItemReady(payload: NextItemPayload) {
+    this.updateView(payload.view);
+    this.currentItem = payload.item;
   }
 
   onFinished(payload: ChallengePayload) {
-    console.log('finished: ', payload);
-
     this.memorizeService.onFinished(payload);
   }
 
