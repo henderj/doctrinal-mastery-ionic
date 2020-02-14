@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { MCConfig, Choice } from '../../interfaces/mcconfig';
 import { Book } from 'src/app/interfaces/book';
 import { Item } from 'src/app/interfaces/item';
@@ -52,6 +52,12 @@ export class MultipleChoiceComponent implements OnInit {
     return this.isMobile ? 'Tap' : 'Click';
   }
 
+  constructor(public platform: Platform) {
+    this.isMobile = platform.is('mobile');
+  }
+
+  ngOnInit() { }
+
   onEvaluatedAnswer(correct: boolean) {
     this.questionCorrect = correct;
     this.questionAnswered = true;
@@ -61,12 +67,6 @@ export class MultipleChoiceComponent implements OnInit {
     const score: number = this.questionCorrect ? 1 : -1;
     this.finished.emit({ correct: this.questionCorrect, scoreDelta: score });
   }
-
-  constructor(public platform: Platform) {
-    this.isMobile = platform.is('mobile');
-  }
-
-  ngOnInit() { }
 
 
 }

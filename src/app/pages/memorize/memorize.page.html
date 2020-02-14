@@ -11,8 +11,16 @@
 </ion-header>
 
 <ion-content>
-  <app-card *ngIf="useCardChallenge" [book]="currentProperties.book" [item]="currentProperties.item"
-    (finished)="onFinished($event)"></app-card>
-  <app-multiple-choice *ngIf="!useCardChallenge" [book]="currentProperties.book" [item]="currentProperties.item"
-    (finished)="onFinished($event)"></app-multiple-choice>
+  <ion-slides pager="true" [options]="slideOptions" class="o-fullsize">
+    <ion-slide *ngFor="let slide of slides; index as i">
+      <app-card *ngIf="slide.useCardChallenge" [book]="slide.book" [item]="slide.item" (finished)="onFinished($event)">
+      </app-card>
+      <app-multiple-choice *ngIf="!slide.useCardChallenge" [book]="slide.book" [item]="slide.item"
+        (finished)="onFinished($event)">
+      </app-multiple-choice>
+    </ion-slide>
+  </ion-slides>
+  <!-- <app-card *ngIf="useCardChallenge" [book]="book" [item]="item" (finished)="onFinished($event)"></app-card>
+  <app-multiple-choice *ngIf="!useCardChallenge" [book]="book" [item]="item" (finished)="onFinished($event)">
+  </app-multiple-choice> -->
 </ion-content>

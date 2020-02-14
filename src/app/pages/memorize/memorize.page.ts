@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { ChallengePayload } from '../../interfaces/ChallengePayload';
-import { Book } from '../../interfaces/book';
-import { Item, ItemType } from '../../interfaces/item';
+import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { IonSlides, IonLabel } from '@ionic/angular';
+
+import { ChallengePayload } from 'src/app/interfaces/ChallengePayload';
+import { Book } from 'src/app/interfaces/book';
+import { Item, ItemType } from 'src/app/interfaces/item';
 import { MemorizeService } from 'src/app/services/memorize.service';
 import { MemorizeChallenges } from 'src/app/enums/memorize-challenges.enum';
 import { NextItemPayload } from 'src/app/interfaces/NextItemPayload';
+import { ChallengeSlideData } from 'src/app/interfaces/ChallengeSlideData';
 
 @Component({
   selector: 'app-memorize',
   templateUrl: './memorize.page.html',
   styleUrls: ['./memorize.page.scss'],
 })
-export class MemorizePage implements OnInit {
+export class MemorizePage implements OnInit, AfterViewInit {
 
   useCardChallenge = false;
 
@@ -26,35 +29,34 @@ export class MemorizePage implements OnInit {
     new Item(7, ItemType.Reference, 'test 4: doctrine(Q)', 'test 4: reference(A)'),
   ]);
 
-  currentItem: Item;
+  item: Item;
+
+  @ViewChild(IonSlides, { static: false }) slider: IonSlides;
+  @ViewChildren('ion-slides') sliderChildren: QueryList<IonSlides>;
+  slideOptions = { allowTouchMove: false };
+  slides: ChallengeSlideData[] = [];
 
   get currentProperties(): object {
     return {
       book: this.book,
-      item: this.currentItem
+      item: this.item
     };
   }
-
 
   get progressPercent(): number {
     return this.memorizeService.progressPercent;
   }
 
 
-  private updateView(view: MemorizeChallenges): void {
-    console.log('updating view...');
-    if (view === MemorizeChallenges.Card) {
-      this.useCardChallenge = true;
-      return;
-    }
-
-    this.useCardChallenge = false;
-  }
-
-
   constructor(public memorizeService: MemorizeService) { }
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+    this.slider.ionSlideTransitionEnd.subscribe(() => this.clipSlides());
+
     this.memorizeService.onNextItem$.subscribe(payload => {
       this.onNextItemReady(payload);
     });
@@ -62,8 +64,29 @@ export class MemorizePage implements OnInit {
   }
 
   onNextItemReady(payload: NextItemPayload) {
-    this.updateView(payload.view);
-    this.currentItem = payload.item;
+    // this.updateView(payload.view);
+    // this.item = payload.item;
+
+    const useCard = payload.view === MemorizeChallenges.Card;
+    this.slides.push({ useCardChallenge: useCard, book: this.book, item: payload.item });
+    // this.clipSlides();
+
+    // this.slider.lockSwipes(false);
+    this.slider.update()
+      .then(() => this.slideToNext());
+    // .then(() => this.clipSlides);
+    // this.slider.lockSwipes(true);
+  }
+
+  private slideToNext() {
+    console.log('sliding');
+    this.slider.slideTo(this.slides.length - 1);
+  }
+
+  private clipSlides() {
+    if (this.slides.length > 2) {
+      this.slides.splice(0, 1);
+    }
   }
 
   onFinished(payload: ChallengePayload) {

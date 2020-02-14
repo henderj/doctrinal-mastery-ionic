@@ -25,12 +25,15 @@ export class MCGroupComponent implements OnInit {
 
   @Output() evaluatedAnswer = new EventEmitter<boolean>();
 
-  choices: Choice[] = [...this.config.choices];
+  choices: Choice[] = this.config.choices;
   anyChoiceClicked = false;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.choices = this.config.choices;
+
+  }
 
   onChoiceClicked(index: number) {
     if (this.anyChoiceClicked) { return; }
