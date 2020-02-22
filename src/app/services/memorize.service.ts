@@ -110,30 +110,16 @@ export class MemorizeService {
       );
 
       return nextItem;
-
-      // const nextItemIndex = this.currentItems.indexOf(nextItem);
-      // if (nextItemIndex === -1) {
-      //   this.currentItems.push(nextItem);
-      //   this.currentItemIndex = this.currentItems.length - 1;
-      //   return;
-      // }
-
-      // this.currentItemIndex = nextItemIndex;
-      // return;
     }
 
     nextItem = this.book.chooseRandomSingle(this.book.itemsMastered);
     return nextItem;
-    // this.currentItems.push(nextItem);
-    // this.currentItemIndex = this.currentItems.length - 1;
-
   }
 
   private continueSession(): void {
     this.currentItemIndex = this.getNextItemIndex();
     const nextView = this.nextView(this.currentItem);
 
-    // this.nextItemCallback(this.currentItem, nextView);
     this.onNextItemSource.next({ item: this.currentItem, view: nextView });
   }
 
