@@ -25,25 +25,29 @@ export class MCGroupComponent implements OnInit {
 
   @Output() evaluatedAnswer = new EventEmitter<boolean>();
 
-  choices: Choice[] = this.config.choices;
+  choices: Choice[] = [];
+  correctIndex = 0;
   anyChoiceClicked = false;
 
   constructor() { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.choices = this.config.choices;
+    this.correctIndex = this.config.correctIndex;
 
   }
 
   onChoiceClicked(index: number) {
     if (this.anyChoiceClicked) { return; }
-    const correct: boolean = index === this.config.correctIndex;
+    this.anyChoiceClicked = true;
+
+    const correct: boolean = index === this.correctIndex;
     let incorrectChoice: Choice | null = null;
     const toRemove: number[] = [];
 
     for (let i = 0; i < this.choices.length; i++) {
       const choice = this.choices[i];
-      if (i === this.config.correctIndex) {
+      if (i === this.correctIndex) {
         choice.state = 'correct';
       } else {
         if (i === index) {
@@ -65,7 +69,6 @@ export class MCGroupComponent implements OnInit {
       this.choices.reverse();
     }
 
-    this.anyChoiceClicked = true;
     this.evaluatedAnswer.emit(correct);
   }
 }

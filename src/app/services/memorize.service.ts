@@ -28,8 +28,8 @@ export class MemorizeService {
   }
 
   get progressPercent(): number {
-    let percent: number = Math.abs((this.currentScore / this.maxScore) * 100);
-    if (percent > 100) { percent = 100; }
+    let percent: number = Math.abs(this.currentScore / this.maxScore);
+    if (percent > 1) { percent = 1; }
     if (percent < 0) { percent = 0; }
 
     return percent;

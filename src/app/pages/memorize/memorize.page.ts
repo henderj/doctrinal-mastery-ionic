@@ -64,18 +64,11 @@ export class MemorizePage implements OnInit, AfterViewInit {
   }
 
   onNextItemReady(payload: NextItemPayload) {
-    // this.updateView(payload.view);
-    // this.item = payload.item;
-
     const useCard = payload.view === MemorizeChallenges.Card;
     this.slides.push({ useCardChallenge: useCard, book: this.book, item: payload.item });
-    // this.clipSlides();
 
-    // this.slider.lockSwipes(false);
     this.slider.update()
       .then(() => this.slideToNext());
-    // .then(() => this.clipSlides);
-    // this.slider.lockSwipes(true);
   }
 
   private slideToNext() {
@@ -85,7 +78,7 @@ export class MemorizePage implements OnInit, AfterViewInit {
 
   private clipSlides() {
     if (this.slides.length > 2) {
-      this.slides.splice(0, 1);
+    //   this.slides.splice(0, 1);
     }
   }
 

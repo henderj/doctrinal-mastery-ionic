@@ -5,22 +5,19 @@
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Old Testament</ion-title>
-    <ion-progress-bar color="primary" value="0.25"></ion-progress-bar>
+    <ion-title>{{book.name}}</ion-title>
+    <ion-progress-bar color="primary" [value]="progressPercent"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-slides pager="true" [options]="slideOptions" class="o-fullsize">
+  <ion-slides [options]="slideOptions" class="o-fullsize">
     <ion-slide *ngFor="let slide of slides; index as i">
-      <app-card *ngIf="slide.useCardChallenge" [book]="slide.book" [item]="slide.item" (finished)="onFinished($event)">
+      <app-card class="o-fullsize" *ngIf="slide.useCardChallenge" [book]="slide.book" [item]="slide.item" (finished)="onFinished($event)">
       </app-card>
-      <app-multiple-choice *ngIf="!slide.useCardChallenge" [book]="slide.book" [item]="slide.item"
+      <app-multiple-choice class="o-fullsize" *ngIf="!slide.useCardChallenge" [book]="slide.book" [item]="slide.item"
         (finished)="onFinished($event)">
       </app-multiple-choice>
     </ion-slide>
   </ion-slides>
-  <!-- <app-card *ngIf="useCardChallenge" [book]="book" [item]="item" (finished)="onFinished($event)"></app-card>
-  <app-multiple-choice *ngIf="!useCardChallenge" [book]="book" [item]="item" (finished)="onFinished($event)">
-  </app-multiple-choice> -->
 </ion-content>
