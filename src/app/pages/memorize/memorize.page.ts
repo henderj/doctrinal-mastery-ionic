@@ -8,13 +8,15 @@ import { MemorizeService } from 'src/app/services/memorize.service';
 import { MemorizeChallenges } from 'src/app/enums/memorize-challenges.enum';
 import { NextItemPayload } from 'src/app/interfaces/NextItemPayload';
 import { ChallengeSlideData } from 'src/app/interfaces/ChallengeSlideData';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-memorize',
   templateUrl: './memorize.page.html',
   styleUrls: ['./memorize.page.scss'],
 })
-export class MemorizePage implements OnInit, AfterViewInit {
+export class MemorizePage {
 
   useCardChallenge = false;
 
@@ -36,6 +38,8 @@ export class MemorizePage implements OnInit, AfterViewInit {
   slideOptions = { allowTouchMove: false };
   slides: ChallengeSlideData[] = [];
 
+  subscriptions: Subscription[] = [];
+
   get currentProperties(): object {
     return {
       book: this.book,
@@ -48,19 +52,24 @@ export class MemorizePage implements OnInit, AfterViewInit {
   }
 
 
-  constructor(public memorizeService: MemorizeService) { }
-
-  ngOnInit() {
-
+  constructor(public memorizeService: MemorizeService) {
   }
 
-  ngAfterViewInit() {
-    this.slider.ionSlideTransitionEnd.subscribe(() => this.clipSlides());
+  ionViewWillEnter() {
+    const sliderSub = this.slider.ionSlideTransitionEnd.subscribe(() => this.clipSlides());
+    this.subscriptions.push(sliderSub);
 
-    this.memorizeService.onNextItem$.subscribe(payload => {
+    const nextItemSub = this.memorizeService.onNextItem$.subscribe(payload => {
       this.onNextItemReady(payload);
     });
-    this.memorizeService.startMemorizeSession(this.book);
+    this.subscriptions.push(nextItemSub);
+
+    this.memorizeService.startNewSession(this.book);
+  }
+
+  ionViewWillLeave() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions = [];
   }
 
   onNextItemReady(payload: NextItemPayload) {
@@ -78,7 +87,7 @@ export class MemorizePage implements OnInit, AfterViewInit {
 
   private clipSlides() {
     if (this.slides.length > 2) {
-    //   this.slides.splice(0, 1);
+      //   this.slides.splice(0, 1);
     }
   }
 
