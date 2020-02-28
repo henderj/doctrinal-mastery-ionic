@@ -102,7 +102,6 @@ export class MemorizeService {
       currentItemIndex: 0,
       masteredItems: []
     };
-    // Test Out Above Statement
   }
 
   private nextView(item: Item): MemorizeChallenges {
@@ -159,7 +158,6 @@ export class MemorizeService {
   }
 
   onFinished(payload: ChallengePayload) {
-    console.log('finished: ', payload);
 
     if (payload.correct) {
       this.currentItem.incrementScore(payload.scoreDelta);

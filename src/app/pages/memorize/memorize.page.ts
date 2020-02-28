@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
-import { IonSlides, IonLabel } from '@ionic/angular';
+import { IonSlides, IonLabel, IonProgressBar } from '@ionic/angular';
 
 import { ChallengePayload } from 'src/app/interfaces/ChallengePayload';
 import { Book } from 'src/app/interfaces/book';
@@ -34,7 +34,6 @@ export class MemorizePage {
   item: Item;
 
   @ViewChild(IonSlides, { static: false }) slider: IonSlides;
-  @ViewChildren('ion-slides') sliderChildren: QueryList<IonSlides>;
   slideOptions = { allowTouchMove: false };
   slides: ChallengeSlideData[] = [];
 
@@ -59,9 +58,7 @@ export class MemorizePage {
     const sliderSub = this.slider.ionSlideTransitionEnd.subscribe(() => this.clipSlides());
     this.subscriptions.push(sliderSub);
 
-    const nextItemSub = this.memorizeService.onNextItem$.subscribe(payload => {
-      this.onNextItemReady(payload);
-    });
+    const nextItemSub = this.memorizeService.onNextItem$.subscribe({ next: payload => this.onNextItemReady(payload) });
     this.subscriptions.push(nextItemSub);
 
     this.memorizeService.startNewSession(this.book);
@@ -81,7 +78,6 @@ export class MemorizePage {
   }
 
   private slideToNext() {
-    console.log('sliding');
     this.slider.slideTo(this.slides.length - 1);
   }
 
