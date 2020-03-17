@@ -7,6 +7,7 @@ import { ChallengePayload } from '../interfaces/ChallengePayload';
 import { MemorizeChallenges } from '../enums/memorize-challenges.enum';
 import { NextItemPayload } from '../interfaces/NextItemPayload';
 import { Router } from '@angular/router';
+import { StoreService } from './store.service';
 
 
 
@@ -45,7 +46,7 @@ export class MemorizeService {
     return percent;
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private store: StoreService) { }
   readonly MaxCurrentItems = 4;
 
   readonly debugBook = new Book('test', [
@@ -162,6 +163,7 @@ export class MemorizeService {
     if (payload.correct) {
       this.currentItem.incrementScore(payload.scoreDelta);
       // this.$store.dispatch('saveItem', this.currentItem);
+      // this.store.state.
       if (this.currentItem.mastered) {
         this.state.masteredItems.push(this.currentItem);
         removeItemFromArray(this.currentItem, this.state.currentItems);
