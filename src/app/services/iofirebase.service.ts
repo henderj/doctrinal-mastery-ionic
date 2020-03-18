@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { StoreService } from './store.service';
 import { Book } from '../interfaces/book';
 import { Item, ItemType } from '../interfaces/item';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { updateBookDataImplicit } from './FirestoreDataService.js';
+
 import bookOfMormon from '../../assets/book-data/book of mormon.json';
 import doctrineAndCovenants from '../../assets/book-data/doctrine and covenants.json';
 import newTestament from '../../assets/book-data/new testament.json';
@@ -12,27 +15,37 @@ import oldTestament from '../../assets/book-data/old testament.json';
 })
 export class IOFirebaseService {
 
-  constructor(private store: StoreService) { }
 
+  constructor(private store: StoreService, private firestore: AngularFirestore) { }
 
-  public setCurrentBookIndex(index: number): void {
-    // const userDoc = this.fetchUserDataDoc();
-
-    // if (userDoc === undefined) { return; }
-
-    // userDoc.update({currentBook: index});
+  private get usersCollection(): AngularFirestoreCollection {
+    return this.firestore.collection('users');
   }
 
-  // public async getCurrentBookIndex(): Promise<number> {
-  // const userDoc = await this.fetchUserDataDocAsync();
-  // const data = (await userDoc.get()).data();
 
-  // if (data === undefined) {
-  //     return Promise.reject();
-  // }
+  public getUserData(): Promise<any> {
+    const docID = this.store.state.currentUser === null ? 'null user' : this.store.state.currentUser.uid;
+    return this.usersCollection.doc(docID).get().toPromise();
+  }
 
-  // return Promise.resolve(data.currentBook);
-  // }
+  public setCurrentBookIndex(index: number): void {
+    const userDoc = this.fetchUserDataDoc();
+
+    if (userDoc === undefined) { return; }
+
+    userDoc.update({ currentBook: index });
+  }
+
+  public async getCurrentBookIndex(): Promise<number> {
+    const userDoc = await this.fetchUserDataDocAsync();
+    const data = (await userDoc.get().toPromise()).data();
+
+    if (data === undefined) {
+      return Promise.reject();
+    }
+
+    return Promise.resolve(data.currentBook);
+  }
 
   public getBooks(): Promise<Book[]> {
     const books = this.getBaseData();
@@ -43,94 +56,88 @@ export class IOFirebaseService {
       return Promise.resolve(books);
     }
 
-    // const userDoc = fb.usersCollection.doc(currentUser.uid);
+    const userDoc = this.usersCollection.doc(currentUser.uid);
 
-    // const userDocSnap = userDoc.get()
-    //     .then(snap => this.createDocIfEmpty(snap, userDoc))
-    //     .then(snap => this.updateBookData(books, userDoc, snap))
-    //     .catch(err => {
-    //         console.error('Error getting document', err);
-    //     });
+    const userDocSnap = userDoc.get().toPromise()
+      .then(snap => this.createDocIfEmpty(snap, userDoc))
+      .then(() => this.updateLocalBookData(books, userDoc))
+      .catch(err => {
+        console.error('Error getting document', err);
+      });
 
     return Promise.resolve(books);
   }
 
   public saveItem(item: Item): void {
-    // this.fetchUserDataDocAsync()
-    //     .then(userDataDoc => {
-    //         const savedItemCollection = userDataDoc.collection('savedItems');
-    //         const savedItemDoc = savedItemCollection.doc(item.ID.toString());
-    //         return savedItemDoc.get();
-    //     })
-    //     .then(snapshot => {
-    //         if (!snapshot.exists) {
-    //             console.log('No matching documents for id: ' + item.ID + '. Creating new doc...');
-    //             snapshot.ref.set({
-    //                 ID: item.ID,
-    //                 data: item.getItemStateData()
-    //             });
-    //             return;
-    //         }
-    //         snapshot.ref.update({
-    //             data: item.getItemStateData()
-    //         });
-    //     })
-    //     .catch(err => {
-    //         console.error('Error saving Item', err);
-    //     });
+    this.fetchUserDataDocAsync()
+      .then(userDataDoc => {
+        const savedItemCollection = userDataDoc.collection('savedItems');
+        const savedItemDoc = savedItemCollection.doc(item.ID.toString());
+        return savedItemDoc.get().toPromise();
+      })
+      .then(snapshot => {
+        if (!snapshot.exists) {
+          console.log('No matching documents for id: ' + item.ID + '. Creating new doc...');
+          snapshot.ref.set({
+            ID: item.ID,
+            data: item.getItemStateData()
+          });
+          return;
+        }
+        snapshot.ref.update({
+          data: item.getItemStateData()
+        });
+      })
+      .catch(err => {
+        console.error('Error saving Item', err);
+      });
   }
 
-  // private fetchUserDataDoc(): firebase.firestore.DocumentReference | undefined {
-  //     const currentUser = this._store.state.currentUser;
-  //     if (currentUser === null) {
-  //         console.log('No current user. Returning undefined...');
-  //         return undefined;
-  //     }
 
-  //     const userData = fb.usersCollection.doc(currentUser.uid);
-  //     return userData;
-  // }
 
-  // private async fetchUserDataDocAsync(): Promise<firebase.firestore.DocumentReference> {
-  //     const currentUser = this._store.state.currentUser;
-  //     if (currentUser === null) {
-  //         console.log('No current user. Rejecting...');
-  //         return Promise.reject();
-  //     }
+  private fetchUserDataDoc(): AngularFirestoreDocument | undefined {
+    const currentUser = this.store.state.currentUser;
+    if (currentUser === null) {
+      console.log('No current user. Returning undefined...');
+      return undefined;
+    }
 
-  //     const userData = fb.usersCollection.doc(currentUser.uid);
-  //     return Promise.resolve(userData);
-  // }
+    const userData = this.usersCollection.doc(currentUser.uid);
+    return userData;
+  }
 
-  // private async createDocIfEmpty(doc: firebase.firestore.DocumentSnapshot,
-  //                                userData: firebase.firestore.DocumentReference): Promise<firebase.firestore.DocumentSnapshot> {
-  //     if (!doc.exists) {
-  //         console.log('Cannot find userData for current user. Creating doc...');
-  //         await userData.set({
-  //             currentBook: 0
-  //         });
-  //         return await Promise.resolve(userData.get());
-  //     } else {
-  //         return Promise.resolve(doc);
-  //     }
-  // }
+  private async fetchUserDataDocAsync(): Promise<AngularFirestoreDocument> {
+    const currentUser = this.store.state.currentUser;
+    if (currentUser === null) {
+      console.log('No current user. Rejecting...');
+      return Promise.reject();
+    }
+    const userData = this.usersCollection.doc(currentUser.uid);
+    return Promise.resolve(userData);
+  }
 
-  // private async updateBookData(books: Book[], doc: firebase.firestore.DocumentReference, snap: firebase.firestore.DocumentSnapshot): Promise<void> {
-  //     const data: firebase.firestore.DocumentData | undefined = snap.data();
+  private async createDocIfEmpty(doc: firebase.firestore.DocumentSnapshot,
+                                 userData: AngularFirestoreDocument): Promise<firebase.firestore.DocumentSnapshot> {
+    if (!doc.exists) {
+      console.log('Cannot find userData for current user. Creating doc...');
+      await userData.set({
+        currentBook: 0
+      });
+      return await Promise.resolve(userData.get().toPromise());
+    } else {
+      return Promise.resolve(doc);
+    }
+  }
 
-  //     if (data === undefined) {
-  //         console.warn('Warning! data is undefined');
-  //         return;
-  //     }
+  private async updateLocalBookData(books: Book[], userDoc: AngularFirestoreDocument): Promise<void> {
+    const snapshot = await userDoc.collection('savedItems').get().toPromise();
+    const savedItems = snapshot.docs.map(doc => doc.data());
 
-  //     const snapshot = await doc.collection('savedItems').get();
-  //     const savedItems = snapshot.docs.map(doc => doc.data());
+    updateBookDataImplicit(books, savedItems);
 
-  //     updateBookDataImplicit(books, savedItems);
+  }
 
-  // }
-
-  private getBaseData() {
+  private getBaseData(): Book[] {
     let nextID = 100;
     const oldTestamentItems: Item[] = [];
     oldTestament.doctrines.forEach(doctrine => {

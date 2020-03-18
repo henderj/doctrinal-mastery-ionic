@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../interfaces/book';
 import { IOFirebaseService } from './iofirebase.service';
+import { Item } from '../interfaces/item';
 
 interface RootState {
   books: Book[];
   tempBook: Book;
   useTempBook: boolean;
   currentBookIndex: number;
-  currentUser: /* firebase.User | */ null;
+  currentUser: firebase.User | null;
   userData: object;
 
 }
@@ -40,7 +41,7 @@ export class StoreService {
       this._state.useTempBook = false;
 
       this._state.currentBookIndex = value;
-      // this._state.dataProvider.setCurrentBookIndex(value);
+      this.IO.setCurrentBookIndex(value);
     }
   }
   public set useTempBook(value: boolean) { this._state.useTempBook = value; }
@@ -48,7 +49,7 @@ export class StoreService {
     this._state.tempBook = value;
     this._state.useTempBook = true;
   }
-  public set currentUser(value: /* firebase.User | */ null) { this._state.currentUser = value; }
+  public set currentUser(value: firebase.User | null) { this._state.currentUser = value; }
   public set userData(value: any) {
     this._state.userData = value;
     this._state.currentBookIndex = value.currentBook;
@@ -56,23 +57,20 @@ export class StoreService {
 
 
   public fetchUserData() {
-    // const docID: string = this._state.currentUser === null ? 'null user' : this._state.currentUser.uid;
-    // fb.usersCollection.doc(docID).get().then(res => {
-    //   commit('setUserData', res.data())
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    this.IO.getUserData().then((data: any) => {
+      this.userData = data;
+    }).catch((err: any) => {
+      console.log(err);
+    });
   }
-  // async setDataProvider({ dispatch, commit }, provider) {
-  //   commit('setDataProvider', provider);
-  //   await dispatch('fetchBookData');
-  // }
+
   public async fetchBookData() {
     this.IO.getBooks().then((books: Book[]) => {
       this.books = books;
     });
   }
-  async saveItem(item) {
+
+  public async saveItem(item: Item) {
     this.IO.saveItem(item);
   }
 
