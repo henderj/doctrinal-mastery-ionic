@@ -162,8 +162,10 @@ export class MemorizeService {
 
     if (payload.correct) {
       this.currentItem.incrementScore(payload.scoreDelta);
+
       // this.$store.dispatch('saveItem', this.currentItem);
-      // this.store.state.
+      this.store.saveItem(this.currentItem);
+
       if (this.currentItem.mastered) {
         this.state.masteredItems.push(this.currentItem);
         removeItemFromArray(this.currentItem, this.state.currentItems);
@@ -171,7 +173,9 @@ export class MemorizeService {
       this.state.currentScore += payload.scoreDelta;
     } else {
       this.currentItem.decrementScore(Math.abs(payload.scoreDelta));
+
       // this.$store.dispatch('saveItem', this.currentItem);
+      this.store.saveItem(this.currentItem);
     }
 
     if (this.state.currentScore >= this.maxScore) {
