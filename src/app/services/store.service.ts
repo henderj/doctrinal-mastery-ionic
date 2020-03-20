@@ -8,9 +8,7 @@ interface RootState {
   tempBook: Book;
   useTempBook: boolean;
   currentBookIndex: number;
-  currentUser: firebase.User | null;
   userData: object;
-
 }
 
 @Injectable({
@@ -23,7 +21,6 @@ export class StoreService {
     tempBook: new Book('temp', []),
     useTempBook: false,
     currentBookIndex: 0,
-    currentUser: null,
     userData: {}
   };
 
@@ -49,7 +46,6 @@ export class StoreService {
     this._state.tempBook = value;
     this._state.useTempBook = true;
   }
-  public set currentUser(value: firebase.User | null) { this._state.currentUser = value; }
   public set userData(value: any) {
     this._state.userData = value;
     this._state.currentBookIndex = value.currentBook;

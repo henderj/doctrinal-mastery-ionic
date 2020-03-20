@@ -1,4 +1,4 @@
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig, firebaseUiAuthConfig } from './firebaseConfig';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -8,7 +8,8 @@ import { firebaseConfig } from './firebaseConfig';
 
 export const environment = {
   production: false,
-  firebase: firebaseConfig
+  firebase: firebaseConfig,
+  firebaseUIAuthConfig: firebaseUiAuthConfig,
 };
 
 /*

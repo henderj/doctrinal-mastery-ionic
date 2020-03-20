@@ -1,9 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ModalController, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
+import { LoginModalPage } from './pages/login-modal/login-modal.page';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { IOFirebaseService } from './services/iofirebase.service';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+// import { LoginModalComponent } from './components/login-modal/login-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +17,6 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    }
-  ];
 
   constructor(
     private platform: Platform,
@@ -33,7 +27,6 @@ export class AppComponent {
   }
 
   initializeApp() {
-
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();

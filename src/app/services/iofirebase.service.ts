@@ -9,22 +9,58 @@ import bookOfMormon from '../../assets/book-data/book of mormon.json';
 import doctrineAndCovenants from '../../assets/book-data/doctrine and covenants.json';
 import newTestament from '../../assets/book-data/new testament.json';
 import oldTestament from '../../assets/book-data/old testament.json';
+import { Subject, Observable } from 'rxjs';
+import { User } from 'firebase';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IOFirebaseService {
 
+  private initialized = false;
 
-  constructor(private store: StoreService, private firestore: AngularFirestore) { }
+  private _currentUser: firebase.User | null;
+  public get currentUser(): firebase.User | null { return this._currentUser; }
+  public set currentUser(value: firebase.User | null) { this._currentUser = value; }
+
+  private _currentUser$ = new Subject<User>();
+  public currentUser$ = this._currentUser$.asObservable();
+
+  private _isLoggedOn = new Subject<boolean>();
+  public isLoggedOn$ = this._isLoggedOn.asObservable();
+
+  constructor(private firestore: AngularFirestore, private fireAuth: AngularFireAuth) { }
 
   private get usersCollection(): AngularFirestoreCollection {
     return this.firestore.collection('users');
   }
 
+  public init() {
+    if (this.initialized) { return; }
+
+    this.fireAuth.auth.onAuthStateChanged(user => {
+      this.onAuthChanged(user);
+    });
+
+    this.initialized = true;
+  }
+
+
+  private onAuthChanged(user: firebase.User) {
+    console.log('logged in: ', user);
+    this._currentUser$.next(user);
+    if (user) {
+      this._currentUser = user;
+    } else {
+      this._currentUser = null;
+    }
+
+    this._isLoggedOn.next(user != null);
+  }
 
   public getUserData(): Promise<any> {
-    const docID = this.store.state.currentUser === null ? 'null user' : this.store.state.currentUser.uid;
+    const docID = this._currentUser === null ? 'null user' : this._currentUser.uid;
     return this.usersCollection.doc(docID).get().toPromise();
   }
 
@@ -50,7 +86,7 @@ export class IOFirebaseService {
   public getBooks(): Promise<Book[]> {
     const books = this.getBaseData();
 
-    const currentUser = this.store.state.currentUser;
+    const currentUser = this._currentUser;
     if (currentUser === null) {
       console.log('No current user. Returning default data...');
       return Promise.resolve(books);
@@ -96,7 +132,7 @@ export class IOFirebaseService {
 
 
   private fetchUserDataDoc(): AngularFirestoreDocument | undefined {
-    const currentUser = this.store.state.currentUser;
+    const currentUser = this._currentUser;
     if (currentUser === null) {
       console.log('No current user. Returning undefined...');
       return undefined;
@@ -107,7 +143,7 @@ export class IOFirebaseService {
   }
 
   private async fetchUserDataDocAsync(): Promise<AngularFirestoreDocument> {
-    const currentUser = this.store.state.currentUser;
+    const currentUser = this._currentUser;
     if (currentUser === null) {
       console.log('No current user. Rejecting...');
       return Promise.reject();
@@ -117,7 +153,7 @@ export class IOFirebaseService {
   }
 
   private async createDocIfEmpty(doc: firebase.firestore.DocumentSnapshot,
-                                 userData: AngularFirestoreDocument): Promise<firebase.firestore.DocumentSnapshot> {
+    userData: AngularFirestoreDocument): Promise<firebase.firestore.DocumentSnapshot> {
     if (!doc.exists) {
       console.log('Cannot find userData for current user. Creating doc...');
       await userData.set({

@@ -26,7 +26,12 @@ const routes: Routes = [
   {
     path: 'quick-review',
     loadChildren: () => import('./pages/quick-review/quick-review.module').then( m => m.QuickReviewPageModule)
-  }
+  },
+  // {
+  //   path: 'login-modal',
+  //   loadChildren: () => import('./pages/login-modal/login-modal.module').then( m => m.LoginModalPageModule)
+  // }
+
 
 ];
 

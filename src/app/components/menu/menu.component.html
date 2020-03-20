@@ -1,0 +1,38 @@
+<ion-menu contentId="main-content" type="overlay" (ionWillOpen)="updateMenu()">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list lines="none">
+      <ion-list-header>
+        Book of Scripture
+      </ion-list-header>
+      <ion-radio-group>
+        <ion-item>
+          <ion-label>Old Testament</ion-label>
+          <ion-radio slot="end" value="OT" checked></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>New Testament</ion-label>
+          <ion-radio slot="end" value="NT"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Book of Mormon</ion-label>
+          <ion-radio slot="end" value="BM"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Doctrine and Covenants</ion-label>
+          <ion-radio slot="end" value="DC"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+
+    <app-account-menu></app-account-menu>
+
+  </ion-content>
+</ion-menu>
