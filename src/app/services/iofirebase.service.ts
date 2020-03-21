@@ -22,13 +22,13 @@ export class IOFirebaseService {
 
   private _currentUser: firebase.User | null;
   public get currentUser(): firebase.User | null { return this._currentUser; }
-  public set currentUser(value: firebase.User | null) { this._currentUser = value; }
+  // public set currentUser(value: firebase.User | null) { this._currentUser = value; }
 
   private _currentUser$ = new Subject<User>();
   public currentUser$ = this._currentUser$.asObservable();
 
-  private _isLoggedOn = new Subject<boolean>();
-  public isLoggedOn$ = this._isLoggedOn.asObservable();
+  // private _isLoggedOn = new Subject<boolean>();
+  // public isLoggedOn$ = this._isLoggedOn.asObservable();
 
   constructor(private firestore: AngularFirestore, private fireAuth: AngularFireAuth) { }
 
@@ -39,8 +39,11 @@ export class IOFirebaseService {
   public init() {
     if (this.initialized) { return; }
 
+    console.log('service before auth');
     this.fireAuth.auth.onAuthStateChanged(user => {
+      console.log('service after auth');
       this.onAuthChanged(user);
+      // return Promise.resolve();
     });
 
     this.initialized = true;
@@ -49,14 +52,14 @@ export class IOFirebaseService {
 
   private onAuthChanged(user: firebase.User) {
     console.log('logged in: ', user);
-    this._currentUser$.next(user);
     if (user) {
       this._currentUser = user;
     } else {
       this._currentUser = null;
     }
+    this._currentUser$.next(user);
 
-    this._isLoggedOn.next(user != null);
+    // this._isLoggedOn.next(user != null);
   }
 
   public getUserData(): Promise<any> {

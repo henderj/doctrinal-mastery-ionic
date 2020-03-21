@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { IOFirebaseService } from 'src/app/services/iofirebase.service';
+import { share } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
+import { Book } from 'src/app/interfaces/book';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +12,19 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  displayName = '';
+
+  constructor(private store: StoreService, private ioFirebase: IOFirebaseService) { }
+
+  get userName(): string {
+    if (this.ioFirebase.currentUser) {
+      return ', ' + this.ioFirebase.currentUser.displayName;
+    }
+    return '';
+  }
+
+  get currentBook(): Book {
+    return this.store.currentBook;
+  }
 
 }

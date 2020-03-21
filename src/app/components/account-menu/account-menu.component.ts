@@ -11,9 +11,8 @@ import { LoginModalPage } from 'src/app/pages/login-modal/login-modal.page';
   templateUrl: './account-menu.component.html',
   styleUrls: ['./account-menu.component.scss'],
 })
-export class AccountMenuComponent implements OnInit {
+export class AccountMenuComponent {
   loginModal: HTMLIonModalElement = null;
-  user$: Observable<firebase.User>;
 
   private loggingOut = false;
 
@@ -23,12 +22,8 @@ export class AccountMenuComponent implements OnInit {
     private ioFirebase: IOFirebaseService,
   ) { }
 
-
-  ngOnInit(): void {
-    this.ioFirebase.init();
-    this.user$ = this.ioFirebase.currentUser$.pipe(share());
-
-    // this.fireAuth.
+  get user(): firebase.User {
+    return this.ioFirebase.currentUser;
   }
 
   async presentLoginModal() {

@@ -1,4 +1,6 @@
 <ion-app>
-  <app-menu></app-menu>
-  <ion-router-outlet id="main-content"></ion-router-outlet>
+  <ng-container *ngIf="dataReady">
+    <app-menu></app-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ng-container>
 </ion-app>

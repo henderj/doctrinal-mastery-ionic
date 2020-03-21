@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { IOFirebaseService } from './services/iofirebase.service';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
+import { StoreService } from './services/store.service';
 // import { LoginModalComponent } from './components/login-modal/login-modal.component';
 
 @Component({
@@ -18,10 +19,15 @@ import { share } from 'rxjs/operators';
 })
 export class AppComponent {
 
+  dataReady = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private store: StoreService,
+    private auth: AngularFireAuth,
+    private io: IOFirebaseService
   ) {
     this.initializeApp();
   }
@@ -30,6 +36,15 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    }).then(() => this.retrieveData());
+  }
+
+  retrieveData() {
+    this.io.init();
+    console.log('app before auth');
+    this.auth.auth.onAuthStateChanged(() => {
+      console.log('app after auth');
+      this.store.fetchAllData().then(() => this.dataReady = true);
     });
   }
 }

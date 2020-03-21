@@ -52,7 +52,14 @@ export class StoreService {
   }
 
 
-  public fetchUserData() {
+  public async fetchAllData() {
+    this.IO.init();
+    await this.fetchUserData();
+    await this.fetchBookData();
+    // console.log(this.IO.currentUser.displayName);
+  }
+
+  private async fetchUserData() {
     this.IO.getUserData().then((data: any) => {
       this.userData = data;
     }).catch((err: any) => {
@@ -60,7 +67,7 @@ export class StoreService {
     });
   }
 
-  public async fetchBookData() {
+  private async fetchBookData() {
     this.IO.getBooks().then((books: Book[]) => {
       this.books = books;
     });

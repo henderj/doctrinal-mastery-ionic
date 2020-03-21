@@ -3,7 +3,7 @@
     Account
   </ion-list-header>
 
-  <ion-item-group *ngIf="(user$ | async) as user; else noUser">
+  <ion-item-group *ngIf="(user); else noUser">
     <ion-item lines="inset">
       <ion-avatar slot="start">
         <img ngxGravatar [email]="user.email" />
