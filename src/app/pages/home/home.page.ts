@@ -24,7 +24,9 @@ export class HomePage {
   }
 
   get currentBook(): Book {
-    return this.store.currentBook;
+    // console.log(this.store.currentBook);
+    // return this.store.currentBook;
+    return this.store.currentBookDebug('home page');
   }
 
 }

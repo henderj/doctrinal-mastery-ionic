@@ -25,10 +25,23 @@ export class StoreService {
   };
 
   public get state(): RootState { return this._state; }
-  public get currentBook(): Book {
-    if (this._state.useTempBook) { return this._state.tempBook; }
 
-    return this._state.books[this._state.currentBookIndex];
+  public currentBookDebug(caller: string): Book {
+    // console.log('store: currentBookDebug', caller);
+    return this.currentBook;
+  }
+  public get currentBook(): Book {
+    let book: Book;
+    if (this._state.useTempBook) {
+      book = this._state.tempBook;
+    } else {
+      book = this._state.books[this._state.currentBookIndex];
+    }
+    // console.log('store: get currentBook', book);
+    return book;
+    // if (this._state.useTempBook) { return this._state.tempBook; }
+
+    // return this._state.books[this._state.currentBookIndex];
   }
 
 
@@ -49,6 +62,7 @@ export class StoreService {
   public set userData(value: any) {
     this._state.userData = value;
     this._state.currentBookIndex = value.currentBook;
+    console.log('store: set userData', value.currentBook);
   }
 
 
@@ -56,19 +70,19 @@ export class StoreService {
     this.IO.init();
     await this.fetchUserData();
     await this.fetchBookData();
-    // console.log(this.IO.currentUser.displayName);
   }
 
   private async fetchUserData() {
-    this.IO.getUserData().then((data: any) => {
+    await this.IO.getUserData().then((data: any) => {
       this.userData = data;
+      console.log('fetchUserData', data);
     }).catch((err: any) => {
       console.log(err);
     });
   }
 
   private async fetchBookData() {
-    this.IO.getBooks().then((books: Book[]) => {
+    await this.IO.getBooks().then((books: Book[]) => {
       this.books = books;
     });
   }

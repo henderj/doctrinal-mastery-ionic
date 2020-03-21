@@ -12,6 +12,8 @@ import oldTestament from '../../assets/book-data/old testament.json';
 import { Subject, Observable } from 'rxjs';
 import { User } from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { runInThisContext } from 'vm';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,6 @@ export class IOFirebaseService {
     this.fireAuth.auth.onAuthStateChanged(user => {
       console.log('service after auth');
       this.onAuthChanged(user);
-      // return Promise.resolve();
     });
 
     this.initialized = true;
@@ -59,12 +60,15 @@ export class IOFirebaseService {
     }
     this._currentUser$.next(user);
 
-    // this._isLoggedOn.next(user != null);
   }
 
-  public getUserData(): Promise<any> {
+  public async getUserData(): Promise<any> {
     const docID = this._currentUser === null ? 'null user' : this._currentUser.uid;
-    return this.usersCollection.doc(docID).get().toPromise();
+    const dataDoc = this.fetchUserDataDocCustom(docID);
+
+    let snap = await dataDoc.get().toPromise();
+    snap = await this.createDocIfEmpty(snap, dataDoc);
+    return Promise.resolve(snap.data());
   }
 
   public setCurrentBookIndex(index: number): void {
@@ -76,7 +80,7 @@ export class IOFirebaseService {
   }
 
   public async getCurrentBookIndex(): Promise<number> {
-    const userDoc = await this.fetchUserDataDocAsync();
+    const userDoc = await this.fetchUserDataDocPromise();
     const data = (await userDoc.get().toPromise()).data();
 
     if (data === undefined) {
@@ -108,7 +112,7 @@ export class IOFirebaseService {
   }
 
   public saveItem(item: Item): void {
-    this.fetchUserDataDocAsync()
+    this.fetchUserDataDocPromise()
       .then(userDataDoc => {
         const savedItemCollection = userDataDoc.collection('savedItems');
         const savedItemDoc = savedItemCollection.doc(item.ID.toString());
@@ -145,7 +149,12 @@ export class IOFirebaseService {
     return userData;
   }
 
-  private async fetchUserDataDocAsync(): Promise<AngularFirestoreDocument> {
+  private fetchUserDataDocCustom(uid: string): AngularFirestoreDocument | undefined {
+    const userData = this.usersCollection.doc(uid);
+    return userData;
+  }
+
+  private async fetchUserDataDocPromise(): Promise<AngularFirestoreDocument> {
     const currentUser = this._currentUser;
     if (currentUser === null) {
       console.log('No current user. Rejecting...');
