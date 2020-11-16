@@ -19,6 +19,7 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
     firebase.auth.EmailAuthProvider.PROVIDER_ID,
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
+  signInSuccessUrl: '/home',
   // tosUrl: '<your-tos-link>',
   // privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
   credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM

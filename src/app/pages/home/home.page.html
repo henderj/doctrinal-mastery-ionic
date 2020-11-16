@@ -14,7 +14,7 @@
     <ion-row>
       <ion-col class="ion-text-center">
         <h1>
-          Welcome Back{{userName}}!
+          Welcome{{userName}}!
         </h1>
         <h2>
           <ion-text color="medium">
@@ -26,7 +26,7 @@
 
     <ion-row class="ion-align-items-center" style="flex-grow: 1;">
       <ion-col style="display: flex;">
-        <app-circle-progress style="margin: auto;" progress="0.25" stroke="10" radius="100"></app-circle-progress>
+        <app-circle-progress style="margin: auto;" [progress]="currentBook?.progress" stroke="10" radius="100"></app-circle-progress>
       </ion-col>
     </ion-row>
 

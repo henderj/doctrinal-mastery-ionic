@@ -18,7 +18,7 @@ export class HomePage {
 
   get userName(): string {
     if (this.ioFirebase.currentUser) {
-      return ', ' + this.ioFirebase.currentUser.displayName;
+      return ' Back, ' + this.ioFirebase.currentUser.displayName;
     }
     return '';
   }
@@ -26,7 +26,7 @@ export class HomePage {
   get currentBook(): Book {
     // console.log(this.store.currentBook);
     // return this.store.currentBook;
-    return this.store.currentBookDebug('home page');
+    return this.store.currentBook;
   }
 
 }
