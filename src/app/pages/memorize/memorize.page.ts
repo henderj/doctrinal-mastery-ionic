@@ -10,6 +10,7 @@ import { NextItemPayload } from 'src/app/interfaces/NextItemPayload';
 import { ChallengeSlideData } from 'src/app/interfaces/ChallengeSlideData';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'app-memorize',
@@ -51,7 +52,7 @@ export class MemorizePage {
   }
 
 
-  constructor(public memorizeService: MemorizeService) {
+  constructor(public memorizeService: MemorizeService, public storeService: StoreService) {
   }
 
   ionViewWillEnter() {
@@ -61,6 +62,8 @@ export class MemorizePage {
     const nextItemSub = this.memorizeService.onNextItem$.subscribe({ next: payload => this.onNextItemReady(payload) });
     this.subscriptions.push(nextItemSub);
 
+    const book = this.storeService.currentBookDebug("memorize page"); 
+    this.book = book;
     this.memorizeService.startNewSession(this.book);
   }
 
