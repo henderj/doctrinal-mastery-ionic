@@ -13,7 +13,7 @@ import { Subject, Observable } from 'rxjs';
 import { User } from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { runInThisContext } from 'vm';
+// import { runInThisContext } from 'vm';
 
 @Injectable({
   providedIn: 'root'
